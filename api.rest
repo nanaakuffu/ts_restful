@@ -1,0 +1,37 @@
+@hostname = localhost
+@port = 3030
+@contentType = application/json
+@apiEndPoint=api/v1
+@baseUrl = {{hostname}}:{{port}}/{{apiEndPoint}}
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjEzZDJkYjAzYWRkNjY0NmYwODg5Yjg2IiwiaWF0IjoxNjMxNzQ3Mjk3LCJleHAiOjE2MzE4MzM2OTd9.wIVGuPdl4PeNh5G-uGcD4YbL-AV3krGu1ZBbY6xFbpU
+
+GET http://{{baseUrl}}/auth/users
+Authorization: {{token}}
+
+###
+POST http://{{baseUrl}}/auth/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "email":"test@test.com",
+    "password":"password"
+}
+
+###
+POST http://{{baseUrl}}/auth/change-password
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "currentPassword": "passworc",
+    "newPassword":"password",
+    "confirmNewPassword":"password"
+}
+
+###
+GET http://{{baseUrl}}/products
+
+###
+GET http://localhost:30410/api/v1/products
