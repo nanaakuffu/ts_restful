@@ -5,7 +5,7 @@
 @baseUrl = {{hostname}}:{{port}}/{{apiEndPoint}}
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjEzZDJkYjAzYWRkNjY0NmYwODg5Yjg2IiwiaWF0IjoxNjMxOTY0ODE2LCJleHAiOjE2MzIwNTEyMTZ9.FPM8H2mW7l2OnAAoADoHjWsBBxmAOLLgAuN4jZ5ngv8
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjEzZDJkYjAzYWRkNjY0NmYwODg5Yjg2IiwiaWF0IjoxNjMyMDczMjE5LCJleHAiOjE2MzIxNTk2MTl9.P-nMPf1ZspnZUb85ov6dwU7ErHRUS0q7JG8Ey7bgB_U
 
 GET http://{{baseUrl}}/auth/users
 Authorization: {{token}}
@@ -40,9 +40,9 @@ Authorization: {{token}}
 Content-Type: {{contentType}}
 
 {
-    "name":"Kalipo",
-    "description":"A nutritious fruit juice.",
-    "price":2
+    "name":"Pencil",
+    "description":"A very good product for children to begin writing.",
+    "price":0.5
 }
 
 ###
@@ -50,14 +50,18 @@ http://{{baseUrl}}/products/6145d1de38ee7ec2a096e40d
 Authorization: {{token}}
 
 ###
-PUT http://{{baseUrl}}/products/6145d1de38ee7ec2a096e40d
+PUT http://{{baseUrl}}/products/61479b6ab409292ffb88c288
 Authorization: {{token}}
 Content-Type: {{contentType}}
 
 {
-    "name":"Kalipo",
-    "price":2.5
+    "price":1.5
 }
+
+###
+DELETE http://{{baseUrl}}/products/6145e40537ddad2cfc423949
+Authorization: {{token}}
+
 
 ###
 GET http://localhost:30410/api/v1/products
