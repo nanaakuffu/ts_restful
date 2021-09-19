@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Connection, Repository } from "typeorm";
+import { Connection, MongoRepository, Repository } from "typeorm";
 
 import { IProductController } from "../globals/interfaces";
 import BaseController from "../globals/baseController";
@@ -14,17 +14,24 @@ class ProductController<
   extends BaseController
   implements IProductController
 {
-  private productRepository: Repository<Product>;
+  private productRepository: MongoRepository<Product>;
 
   constructor(dbConnection: Connection) {
     super();
-    this.productRepository = dbConnection.getRepository(Product);
+    this.productRepository = dbConnection.getMongoRepository(Product);
   }
 
   public addNew = async (request: A, response: B, next: C): Promise<void> => {
     try {
-      const contact = await this.productRepository.save(request.body);
-      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 201, contact);
+      this.checkValidation(request);
+
+      const userId = response.locals.user.id;
+      request.body.created_by = userId;
+
+      const newDataToSave = <Product>request.body;
+
+      const product = await this.productRepository.save(newDataToSave);
+      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 201, product);
     } catch (error) {
       next(error);
     }
@@ -36,8 +43,10 @@ class ProductController<
     next: C
   ): Promise<void> => {
     try {
-      const contact = await this.productRepository.find({});
-      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, contact);
+      const products = await this.productRepository.find({
+        relations: ["user"],
+      });
+      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, products);
     } catch (error) {
       next(error);
     }
@@ -45,10 +54,11 @@ class ProductController<
 
   public showData = async (request: A, response: B, next: C): Promise<void> => {
     try {
-      const contact = await this.productRepository.findOne(
-        request.params.contactId
+      const product = await this.productRepository.findOne(
+        request.params.productId
       );
-      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, contact);
+
+      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, product);
     } catch (error) {
       next(error);
     }
@@ -63,12 +73,17 @@ class ProductController<
     next: C
   ): Promise<void> => {
     try {
-      const contact = await this.productRepository.update(
-        request.params.contactId,
+      this.checkValidation(request);
+
+      const userId = response.locals.user.id;
+      request.body.updated_by = userId;
+
+      await this.productRepository.update(
+        request.params.productId,
         request.body
       );
 
-      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, contact);
+      this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200);
     } catch (error) {
       next(error);
     }
@@ -80,7 +95,7 @@ class ProductController<
     next: C
   ): Promise<void> => {
     try {
-      this.productRepository.delete(request.params.contactId);
+      this.productRepository.delete(request.params.productId);
       this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200);
     } catch (error) {
       next(error);
