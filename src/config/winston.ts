@@ -1,8 +1,8 @@
 import { join } from "path";
-import { createLogger, format, transports } from "winston";
+import winston, { createLogger, format, transports } from "winston";
 
 // creates a new Winston Logger
-export const logger = createLogger({
+export const logger: winston.Logger = createLogger({
   level: "info",
   format: format.combine(
     format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
