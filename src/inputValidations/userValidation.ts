@@ -1,5 +1,5 @@
-import { check, body, ValidationChain } from "express-validator";
-import { Connection, getRepository, Repository } from "typeorm";
+import { body, ValidationChain } from "express-validator";
+import { getRepository } from "typeorm";
 
 import { User } from "../entity/User";
 

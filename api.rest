@@ -5,7 +5,7 @@
 @baseUrl = {{hostname}}:{{port}}/{{apiEndPoint}}
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjEzZDJkYjAzYWRkNjY0NmYwODg5Yjg2IiwiaWF0IjoxNjMxNzQ3Mjk3LCJleHAiOjE2MzE4MzM2OTd9.wIVGuPdl4PeNh5G-uGcD4YbL-AV3krGu1ZBbY6xFbpU
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjEzZDJkYjAzYWRkNjY0NmYwODg5Yjg2IiwiaWF0IjoxNjMxOTY0ODE2LCJleHAiOjE2MzIwNTEyMTZ9.FPM8H2mW7l2OnAAoADoHjWsBBxmAOLLgAuN4jZ5ngv8
 
 GET http://{{baseUrl}}/auth/users
 Authorization: {{token}}
@@ -22,7 +22,7 @@ Content-Type: {{contentType}}
 ###
 POST http://{{baseUrl}}/auth/change-password
 Authorization: {{token}}
-Content-Type: application/json
+Content-Type: {{contentType}}
 
 {
     "currentPassword": "passworc",
@@ -32,6 +32,32 @@ Content-Type: application/json
 
 ###
 GET http://{{baseUrl}}/products
+Authorization: {{token}}
+
+###
+POST http://{{baseUrl}}/products
+Authorization: {{token}}
+Content-Type: {{contentType}}
+
+{
+    "name":"Kalipo",
+    "description":"A nutritious fruit juice.",
+    "price":2
+}
+
+###
+http://{{baseUrl}}/products/6145d1de38ee7ec2a096e40d
+Authorization: {{token}}
+
+###
+PUT http://{{baseUrl}}/products/6145d1de38ee7ec2a096e40d
+Authorization: {{token}}
+Content-Type: {{contentType}}
+
+{
+    "name":"Kalipo",
+    "price":2.5
+}
 
 ###
 GET http://localhost:30410/api/v1/products
