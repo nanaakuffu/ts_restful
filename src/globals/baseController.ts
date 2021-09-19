@@ -13,10 +13,10 @@ export default abstract class BaseController implements IController {
       value,
     }: ValidationError) => {
       // Build your resulting errors however you want! String, object, whatever - it works!
-      // return `${location}[${param}]: ${msg}`;
-      return { location, param, msg };
+      return { location, msg, value };
     };
     const errors = validationResult(request).formatWith(errorFormatter);
+
     if (!errors.isEmpty()) {
       throw new HttpException(422, "Validation failed", errors.mapped());
     }
