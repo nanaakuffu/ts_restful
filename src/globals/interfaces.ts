@@ -1,9 +1,9 @@
+import { User } from "entity/User";
 import { Application, NextFunction, Request, Response } from "express";
 import { Connection } from "typeorm";
 
 export interface IExpressApp {
   app: Application;
-  apiUrl: string;
 }
 
 export interface IProduct {
@@ -81,4 +81,13 @@ export interface IUserController {
 
 export interface myGlobal extends NodeJS.Global {
   dbConnection: Connection;
+}
+
+export interface IApplicationError {
+  name: string;
+  status: number;
+  message: string;
+  url: string;
+  method: string;
+  data?: unknown;
 }
