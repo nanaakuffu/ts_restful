@@ -7,17 +7,15 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import ProductRoutes from "./routes/productRoutes";
-import UserRoutes from "./routes/userRoutes";
-import { configOptions, connectionOptions } from "./config/settings";
+import { connectionOptions } from "./config/settings";
 import { HttpException } from "./utility/HttpException";
-import { IExpressApp } from "./globals/interfaces";
-import { logServerAccess, logServerErrors } from "./utility/logger";
+import { IApplicationError, IExpressApp } from "./globals/interfaces";
+import { logServerAccess } from "./utility/logger";
 import { logger } from "./config/winston";
+import GeneralRouter from "./routes/web";
 
-class App implements IExpressApp {
+class ExpressApp implements IExpressApp {
   public readonly app: Application;
-  readonly apiUrl = configOptions.API_URL;
 
   constructor() {
     this.app = express();
@@ -25,16 +23,13 @@ class App implements IExpressApp {
     this.databaseConnectionSetup();
   }
 
-  private routes(connection: Connection) {
-    // Product routes
-    this.app.use(
-      `${this.apiUrl}/products`,
-      new ProductRoutes(connection).router
-    );
+  private routes = (connection: Connection): void => {
+    // Initialize the router class
+    const generalRoutes = new GeneralRouter(connection, this.app);
 
-    // User routes
-    this.app.use(`${this.apiUrl}/auth`, new UserRoutes(connection).router);
-  }
+    // Get all the routes from GeneaterRouter class
+    generalRoutes.routes();
+  };
 
   private middlewares = (): void => {
     // Enable helmet to protect the api headers
@@ -56,7 +51,7 @@ class App implements IExpressApp {
     // Adding morgan to log http request
     // Log server access
     this.app.use(
-      morgan("common", {
+      morgan("combined", {
         stream: logServerAccess(__dirname + "/logs/access.log"),
       })
     );
@@ -90,33 +85,36 @@ class App implements IExpressApp {
   };
 
   private generalErrorHandler = (
-    error: HttpError,
+    error: IApplicationError,
     request: Request,
     response: Response,
     next: NextFunction
   ): void => {
-    let { status = 500, message, data } = error;
+    let { status = 500, message, data } = error as unknown as HttpError;
 
-    logger.error(
-      `${request.method} -- ${status} -- ${request.originalUrl} -- ${request.ip} -- ${error.message}`
-    );
+    if (status === 500) {
+      logger.error(
+        `${request.method} -- ${status} -- ${request.originalUrl} -- ${request.ip} -- ${error.message}`
+      );
+    }
 
     // If status code is 500 - change the message to Intrnal server error
     // message = status === 500 || !message ? "Internal server error" : message;
 
     error = {
-      type: error.name,
+      name: error.name,
       method: request.method,
       url: request.url,
       status,
       message,
-      ...(data && data),
+      // ...(data && data),
+      data,
     };
 
     response.status(status).send(error);
   };
 }
 
-const expressApp: IExpressApp = new App();
+const expressApp: IExpressApp = new ExpressApp();
 
 export default expressApp.app;
