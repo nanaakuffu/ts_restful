@@ -14,43 +14,39 @@ import { IUserController } from "../globals/interfaces";
 
 class UserRoutes extends BaseRoute {
   readonly userController: IUserController;
-  public router: Router;
+  public router!: Router;
 
   constructor(dbConnection: Connection) {
     super();
     this.userController = new UserController(dbConnection);
-    this.router = Router();
     this.routes();
   }
 
   public routes(): void {
-    this.router.post("/login", loginValidation, this.userController.loginUser);
-    this.router.post(
-      "/change-password",
-      auth,
-      changePasswordValidation,
-      this.userController.changePassword
-    );
-    this.router.get("/users", auth, isAdmin, this.userController.getAllUsers);
+    this.router = Router();
 
-    this.router.post(
-      "/users",
-      auth,
-      createUserValidation,
-      this.userController.createUser
-    );
-    this.router.get(
-      "/users/:user_id",
-      auth,
-      this.userController.getUserInformation
-    );
-    this.router.put(
-      "/users/:user_id",
-      auth,
-      updateUserValidation,
-      this.userController.updateUser
-    );
-    this.router.delete("/users/:user_id", auth, this.userController.deleteUser);
+    this.router
+      .route("/login")
+      .post(loginValidation, this.userController.loginUser)
+      .all(this.methodNotAllowed);
+
+    this.router
+      .route("/change-password")
+      .post(auth, changePasswordValidation, this.userController.changePassword)
+      .all(this.methodNotAllowed);
+
+    this.router
+      .route("/users")
+      .get(auth, isAdmin, this.userController.getAllUsers)
+      .post(auth, createUserValidation, this.userController.createUser)
+      .all(this.methodNotAllowed);
+
+    this.router
+      .route("/users/:user_id")
+      .get(auth, this.userController.getUserInformation)
+      .put(auth, updateUserValidation, this.userController.updateUser)
+      .delete(auth, this.userController.deleteUser)
+      .all(this.methodNotAllowed);
   }
 }
 
