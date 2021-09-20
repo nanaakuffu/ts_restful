@@ -69,7 +69,7 @@ class ExpressApp implements IExpressApp {
         if (connection) {
           this.routes(connection);
           this.notFoundUrl();
-          this.app.use(this.generalErrorHandler);
+          this.app.use(this.errorBroker);
         }
       })
       .catch((error) => logger.error(`${error.name}: ${error.message}`));
@@ -84,13 +84,13 @@ class ExpressApp implements IExpressApp {
     );
   };
 
-  private generalErrorHandler = (
+  private errorBroker = (
     error: IApplicationError,
     request: Request,
     response: Response,
     next: NextFunction
   ): void => {
-    let { status = 500, message, data } = error as unknown as HttpError;
+    let { status = 500, message, data } = error;
 
     if (status === 500) {
       logger.error(
@@ -98,16 +98,12 @@ class ExpressApp implements IExpressApp {
       );
     }
 
-    // If status code is 500 - change the message to Intrnal server error
-    // message = status === 500 || !message ? "Internal server error" : message;
-
     error = {
       name: error.name,
       method: request.method,
       url: request.url,
       status,
       message,
-      // ...(data && data),
       data,
     };
 

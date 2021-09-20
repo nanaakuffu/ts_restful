@@ -5,10 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { IUser } from "../globals/interfaces";
+import { IUser, IUserInfo } from "../globals/interfaces";
 
 @Entity()
-export class User implements IUser {
+export class User implements IUserInfo {
   @ObjectIdColumn()
   id!: string;
 

@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { Result, ValidationError, validationResult } from "express-validator";
+import { Request, Response } from "express";
+import { ValidationError, validationResult } from "express-validator";
 
 import { HttpException } from "../utility/HttpException";
 import { IController } from "./interfaces";
@@ -28,11 +28,12 @@ export default abstract class BaseController implements IController {
     statusCode: number = 200,
     data?: unknown
   ): void => {
-    const response_message = {
-      status: statusCode,
-      message: message,
-      data: data,
-    };
+    const response_message: { status: number; message: string; data: unknown } =
+      {
+        status: statusCode,
+        message: message,
+        data: data,
+      };
     response.status(statusCode).send(response_message);
   };
 }

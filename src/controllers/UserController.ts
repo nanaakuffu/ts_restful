@@ -43,12 +43,12 @@ export class UserController<
       }
 
       // Check for password correctness
-      const passwordIsMatching = await bcrypt.compare(
+      const isPasswordMatching = await bcrypt.compare(
         userPassword,
         user.password
       );
 
-      if (!passwordIsMatching) {
+      if (!isPasswordMatching) {
         throw new HttpException(401, "Incorrect e-mail or password!");
       }
 
@@ -69,7 +69,6 @@ export class UserController<
     } catch (error) {
       // Send error to the error broker
       next(error);
-      // console.log(error);
     }
   };
 
@@ -116,7 +115,11 @@ export class UserController<
     throw new Error("Method not implemented.");
   }
 
-  public createUser = async (request: A, response: B, next: C) => {
+  public createUser = async (
+    request: A,
+    response: B,
+    next: C
+  ): Promise<void> => {
     try {
       this.checkValidation(request);
 
@@ -124,9 +127,9 @@ export class UserController<
         request.body.password = await bcrypt.hash(request.body.password, 8);
       }
 
-      const { confirm_password, ...dataToSave } = request.body;
+      const userDataToSave = <User>request.body;
 
-      await this.userRepository.save(dataToSave);
+      await this.userRepository.save(userDataToSave);
 
       this.apiResponse(response, "User was created!", 201);
     } catch (error) {
@@ -142,10 +145,7 @@ export class UserController<
     try {
       this.checkValidation(request);
 
-      let newUser = await this.userRepository.update(
-        request.params.user_id,
-        request.body
-      );
+      await this.userRepository.update(request.params.user_id, request.body);
 
       this.apiResponse(response, "User was successfully updated!", 200);
     } catch (error) {

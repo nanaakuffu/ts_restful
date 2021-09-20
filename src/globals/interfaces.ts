@@ -27,6 +27,7 @@ export interface IUserInfo {
   first_name: string;
   last_name: string;
   email: string;
+  password: string;
   contact_number: string;
   role_id: number;
   created_at: Date;

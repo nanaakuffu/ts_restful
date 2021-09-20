@@ -14,8 +14,7 @@ export const createUserValidation: Array<ValidationChain> = [
     .trim()
     .exists()
     .withMessage("Please provide last name")
-    .isAlpha()
-    .withMessage("Only alphabets are accepted")
+    .isString()
     .notEmpty(),
   body("email")
     .trim()
