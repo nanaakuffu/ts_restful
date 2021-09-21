@@ -13,6 +13,7 @@ export const auth = async (
   try {
     const authorizationHeader: string | undefined =
       request.headers.authorization;
+
     const token =
       authorizationHeader &&
       authorizationHeader.startsWith("Bearer") &&

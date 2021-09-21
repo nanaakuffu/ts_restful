@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
+import fileUpload from "express-fileupload";
 
 import { connectionOptions } from "./config/settings";
 import { HttpException } from "./utility/HttpException";
@@ -59,6 +60,19 @@ class ExpressApp implements IExpressApp {
     this.app.use(morgan("common"));
 
     this.app.use(cookieParser());
+
+    // Allow file upload in the app
+    this.app.use(
+      fileUpload({
+        limits: { fileSize: 1024 },
+        abortOnLimit: true,
+        limitHandler: (request, response, next) => {
+          next(new HttpException(413, "File size exceeded limit."));
+        },
+        useTempFiles: true,
+        tempFileDir: "./tmp",
+      })
+    );
   };
 
   private databaseConnectionSetup = async () => {
