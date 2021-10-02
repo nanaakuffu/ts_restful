@@ -1,4 +1,5 @@
 import { body, ValidationChain } from "express-validator";
+import { HttpException } from "../utility/HttpException";
 
 export const createProductValidation: ValidationChain[] = [
   body("name")
@@ -20,6 +21,13 @@ export const createProductValidation: ValidationChain[] = [
     .withMessage("Product price is required")
     .isNumeric()
     .notEmpty(),
+  body("image_file")
+    .exists()
+    .withMessage("Product image is required")
+    .custom((value, { req }) => {
+      if (!req.file) throw new HttpException(422, "Profile Img is required");
+      return true;
+    }),
 ];
 
 export const updateProductValidation: ValidationChain[] = [

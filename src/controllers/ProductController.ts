@@ -43,9 +43,7 @@ class ProductController<
     next: C
   ): Promise<void> => {
     try {
-      const products = await this.productRepository.find({
-        relations: ["user"],
-      });
+      const products = await this.productRepository.find();
       this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, products);
     } catch (error) {
       next(error);

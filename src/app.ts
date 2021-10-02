@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 import fileUpload from "express-fileupload";
+import { pagination } from "typeorm-pagination";
 
 import { connectionOptions } from "./config/settings";
 import { HttpException } from "./utility/HttpException";
@@ -73,6 +74,9 @@ class ExpressApp implements IExpressApp {
         tempFileDir: "./tmp",
       })
     );
+
+    // Add pagination to bulk data responses
+    this.app.use(pagination);
   };
 
   private databaseConnectionSetup = async () => {

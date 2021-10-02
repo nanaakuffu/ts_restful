@@ -47,9 +47,10 @@ Authorization: {{token}}
 Content-Type: {{contentType}}
 
 {
-    "name":"Pencil",
-    "description":"A very good product for children to begin writing.",
-    "price":0.5
+    "name":"Pen",
+    "description":"A very good material for making notes.",
+    "price":1.5,
+    "image_file": "file"
 }
 
 ###
@@ -91,4 +92,4 @@ Content-Type: {{contentType}}
 }
 
 ###
-GET http://localhost:30410/api/v1/products
+GET http://localhost:4001/api/v1/products

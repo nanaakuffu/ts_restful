@@ -172,7 +172,7 @@ export class UserController<
     next: C
   ): Promise<void> => {
     try {
-      const users: Array<User> = await this.userRepository.find({});
+      const users: Array<User> = await this.userRepository.find();
 
       const dataWithoutPassword = users.map((element) => {
         const { password, ...restOfData } = element;
