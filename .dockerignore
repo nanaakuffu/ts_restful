@@ -1,4 +1,11 @@
 Dockerfile
 Dockerfile.dev
 ./node_modules
-./dist
+./src
+.gitignore
+api.rest
+docker-compose.yml
+ormconfig.json
+README.md 
+to-do-list
+tsconfig.json
