@@ -42,6 +42,7 @@
     "reflect-metadata": "^0.1.10",
     "rotating-file-stream": "^2.1.5",
     "typeorm": "0.2.37",
+    "typeorm-pagination": "^2.0.3",
     "winston": "^3.3.3"
   },
   "scripts": {
@@ -49,5 +50,6 @@
     "build": "tsc",
     "start": "nodemon dist/index.js",
     "prod": "npm run build && npm run start"
-  }
+  },
+  "postinstall": "tsc"
 }
