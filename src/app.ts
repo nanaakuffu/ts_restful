@@ -9,7 +9,7 @@ import morgan from "morgan";
 import fileUpload from "express-fileupload";
 import { pagination } from "typeorm-pagination";
 
-import { connectionOptions } from "./config/settings";
+import { dataSource } from "./config/settings";
 import { HttpException } from "./utility/HttpException";
 import { IApplicationError, IExpressApp } from "./globals/interfaces";
 import { logServerAccess } from "./utility/logger";
@@ -57,6 +57,7 @@ class ExpressApp implements IExpressApp {
         stream: logServerAccess(__dirname + "/logs/access.log"),
       })
     );
+
     // Log requests to console
     this.app.use(morgan("common"));
 
@@ -80,11 +81,12 @@ class ExpressApp implements IExpressApp {
   };
 
   private databaseConnectionSetup = async () => {
-    await createConnection(connectionOptions)
+    dataSource
+      .initialize()
       .then((connection) => {
-        console.log("Database Connected");
-
         if (connection) {
+          console.log("Database Connected");
+
           this.routes(connection);
           this.notFoundUrl();
           this.app.use(this.errorBroker);

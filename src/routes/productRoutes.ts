@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseRoute } from "../globals/baseRoute";
 import ProductController from "../controllers/ProductController";
-import { IProductController, myGlobal } from "../globals/interfaces";
+import { IProductController } from "../globals/interfaces";
 import { Connection } from "typeorm";
 import { auth } from "./../middlewares/auth";
 import {
@@ -15,7 +15,7 @@ export default class ProductRoutes extends BaseRoute {
 
   constructor(dbConnection: Connection) {
     super();
-    this.productController = new ProductController(dbConnection);
+    this.productController = new ProductController();
     this.routes();
   }
 

@@ -1,5 +1,5 @@
 
-@baseUrl = http://localhost:3030/api/v1
+@baseUrl = http://localhost:4001/api/v1
 @contentType = application/json
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
@@ -22,7 +22,7 @@ Content-Type: {{contentType}}
 GET {{baseUrl}}/auth/users
 Authorization: {{token}}
 
-
+###
 # @name changePassword
 POST {{baseUrl}}/auth/change-password
 Authorization: {{token}}
@@ -35,7 +35,6 @@ Content-Type: {{contentType}}
 }
 
 ###
-
 # @name getAllProducts
 GET {{baseUrl}}/products
 Authorization: {{token}}

@@ -36,7 +36,7 @@ export class UserController<
       const { email, password: userPassword } = request.body;
 
       // Find user by the email
-      const user = await this.userRepository.findOne({ email });
+      const user = await this.userRepository.findOneBy({ email: email });
 
       if (!user) {
         throw new HttpException(401, "Incorrect e-mail or password!");
@@ -196,9 +196,9 @@ export class UserController<
     next: C
   ): Promise<void> => {
     try {
-      const user: User = (await this.userRepository.findOne(
-        request.params.user_id
-      )) as User;
+      const user: User = (await this.userRepository.findOneBy({
+        id: request.params.user_id,
+      })) as User;
 
       const { password, ...restOfData } = user;
 

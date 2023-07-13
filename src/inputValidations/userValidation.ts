@@ -23,7 +23,7 @@ export const createUserValidation: Array<ValidationChain> = [
     .isEmail()
     .withMessage("Please provide a valid email.")
     .custom(async (value) => {
-      const user = await getRepository(User).findOne({ email: value });
+      const user = await getRepository(User).findOneBy({ email: value });
 
       if (user) {
         return Promise.reject("E-mail already in use");
@@ -57,7 +57,7 @@ export const updateUserValidation: Array<ValidationChain> = [
     .optional()
     .isEmail()
     .custom(async (value) => {
-      const user = await getRepository(User).findOne({ email: value });
+      const user = await getRepository(User).findOneBy({ email: value });
       if (user) {
         return Promise.reject("E-mail already in use");
       }

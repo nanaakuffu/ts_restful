@@ -1,0 +1,28 @@
+[Sep-17-2021 07:30:36]: GET -- 401 -- /api/v1/products -- ::ffff:127.0.0.1 -- Unauthenticated: No token on header.
+[Sep-17-2021 08:00:33]: GET -- 401 -- /api/v1/products -- ::ffff:127.0.0.1 -- Unauthenticated: No token on header.
+[Sep-17-2021 08:00:42]: GET -- 401 -- /api/v1/auth/users -- ::ffff:127.0.0.1 -- Unauthenticated: Token expired.
+[Sep-17-2021 08:01:08]: GET -- 401 -- /api/v1/products -- ::ffff:127.0.0.1 -- Unauthenticated: Token expired.
+[Sep-17-2021 09:15:43]: GET -- 404 -- /api/v1/products -- ::ffff:127.0.0.1 -- Url not found
+[Sep-17-2021 09:42:30]: GET -- 401 -- /api/v1/auth/users -- ::1 -- Unauthenticated: Token expired.
+[Sep-17-2021 11:06:54]: GET -- 401 -- /api/v1/auth/users -- ::1 -- Unauthenticated: Token expired.
+[Sep-17-2021 11:07:51]: GET -- 401 -- /api/v1/auth/users -- ::1 -- Unauthenticated: Token expired.
+[Sep-17-2021 11:08:28]: GET -- 401 -- /api/v1/auth/users -- ::1 -- Unauthenticated: Token expired.
+[Sep-18-2021 11:33:25]: GET -- 401 -- /api/v1/products -- ::ffff:127.0.0.1 -- Unauthenticated: Token expired.
+[Sep-18-2021 11:49:03]: GET -- 401 -- /api/v1/products/6145d1de38ee7ec2a096e40d -- ::ffff:127.0.0.1 -- Unauthenticated: No token on header.
+[Sep-18-2021 12:11:01]: PUT -- 404 -- /api/v1/products/6145d1de38ee7ec2a096e40d -- ::ffff:127.0.0.1 -- Url not found
+[Sep-18-2021 13:01:04]: PUT -- 500 -- /api/v1/products/6145d1de38ee7ec2a096e40d -- ::ffff:127.0.0.1 -- Update document requires atomic operators
+[Sep-18-2021 13:09:35]: GET -- 401 -- /api/v1/products -- ::1 -- Unauthenticated: No token on header.
+[Sep-18-2021 14:25:30]: PUT -- 422 -- /api/v1/products/6145d1de38ee7ec2a096e40d -- ::ffff:127.0.0.1 -- Validation failed
+[Sep-18-2021 15:06:54]: PUT -- 422 -- /api/v1/products/6145d1de38ee7ec2a096e40d -- ::ffff:127.0.0.1 -- Validation failed
+[Sep-18-2021 15:09:30]: PUT -- 422 -- /api/v1/products/6145d1de38ee7ec2a096e40d -- ::ffff:127.0.0.1 -- Validation failed
+[Sep-18-2021 15:55:30]: GET -- 404 -- /api/v1/product -- ::ffff:127.0.0.1 -- Url not found
+[Sep-18-2021 16:01:56]: GET -- 401 -- /api/v1/auth/users -- ::1 -- Unauthenticated: Token expired.
+[Sep-18-2021 16:42:34]: GET -- 404 -- /api/v1/product -- ::ffff:127.0.0.1 -- Url not found
+[Sep-18-2021 16:53:34]: GET -- 404 -- /api/v1/product -- ::ffff:127.0.0.1 -- Url not found
+[Sep-18-2021 16:53:54]: PUT -- 405 -- /api/v1/products -- ::ffff:127.0.0.1 -- Method not allowed
+[Sep-18-2021 17:08:11]: PUT -- 405 -- /api/v1/products -- ::ffff:127.0.0.1 -- Method not allowed
+[Sep-18-2021 17:08:24]: GET -- 405 -- /api/v1/products -- ::ffff:127.0.0.1 -- Method not allowed
+[Sep-18-2021 17:16:39]: PUT -- 405 -- /api/v1/products -- ::ffff:127.0.0.1 -- Method not allowed
+[Sep-18-2021 17:17:35]: GET -- 405 -- /api/v1/auth/change-password -- ::ffff:127.0.0.1 -- Method not allowed
+[Sep-18-2021 17:17:57]: GET -- 405 -- /api/v1/auth/login -- ::ffff:127.0.0.1 -- Method not allowed
+[Sep-21-2021 23:17:09]: GET -- 500 -- /api/v1/auth/users -- ::ffff:127.0.0.1 -- Query Builder is not supported by MongoDB.

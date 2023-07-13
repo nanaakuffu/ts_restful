@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { Connection, MongoRepository, Repository } from "typeorm";
+import { Connection, DataSource, MongoRepository, Repository } from "typeorm";
 
 import { IProductController } from "../globals/interfaces";
 import BaseController from "../globals/baseController";
-import { configOptions } from "../config/settings";
+import { configOptions, dataSource } from "../config/settings";
 import Product from "../entity/Product";
 
 class ProductController<
@@ -16,9 +16,9 @@ class ProductController<
 {
   private productRepository: MongoRepository<Product>;
 
-  constructor(dbConnection: Connection) {
+  constructor() {
     super();
-    this.productRepository = dbConnection.getMongoRepository(Product);
+    this.productRepository = dataSource.getMongoRepository(Product);
   }
 
   public addNew = async (request: A, response: B, next: C): Promise<void> => {
@@ -52,9 +52,9 @@ class ProductController<
 
   public showData = async (request: A, response: B, next: C): Promise<void> => {
     try {
-      const product = await this.productRepository.findOne(
-        request.params.productId
-      );
+      const product = await this.productRepository.findOneBy({
+        id: request.params.productId,
+      });
 
       this.apiResponse(response, configOptions.SUCCESS_MESSAGE, 200, product);
     } catch (error) {

@@ -1,12 +1,13 @@
 import {
   Connection,
   ConnectionOptions,
+  DataSource,
   createConnection,
   getConnection,
 } from "typeorm";
 
 export default class DatabaseConnection {
-  private connectionOptions: ConnectionOptions = {
+  private connectionOptions: DataSource = new DataSource({
     type: "mongodb",
     database: "typeorm-test-db",
     synchronize: true,
@@ -15,26 +16,10 @@ export default class DatabaseConnection {
     entities: ["src/entity/*.ts"],
     migrations: ["src/migration/*.ts"],
     subscribers: ["src/subscriber/*.ts"],
-    cli: {
-      entitiesDir: "src/entity",
-      migrationsDir: "src/migration",
-      subscribersDir: "src/subscriber",
-    },
-  };
+  });
 
-  public async getDatabaseConnection(name: string): Promise<Connection> {
-    let connection: Connection;
-
-    try {
-      connection = getConnection(name);
-      if (!connection.isConnected) {
-        connection = await connection.connect();
-      }
-    } catch (err) {
-      connection = await createConnection(this.connectionOptions);
-    }
-
-    return connection;
+  public async getDatabaseConnection(name: string): Promise<DataSource> {
+    return await this.connectionOptions.initialize();
   }
 }
 

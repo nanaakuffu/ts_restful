@@ -80,9 +80,9 @@ export interface IUserController {
   ): void;
 }
 
-export interface myGlobal extends NodeJS.Global {
-  dbConnection: Connection;
-}
+// export interface myGlobal extends NodeJS.Global {
+//   dbConnection: Connection;
+// }
 
 export interface IApplicationError {
   name: string;

@@ -1,4 +1,4 @@
-import { ConnectionOptions } from "typeorm";
+import { ConnectionOptions, DataSource } from "typeorm";
 import { join } from "path";
 
 export const enum configOptions {
@@ -7,7 +7,7 @@ export const enum configOptions {
   SUCCESS_MESSAGE = "Request completed successfully",
 }
 
-export const connectionOptions: ConnectionOptions = {
+export const dataSource: DataSource = new DataSource({
   type: "mongodb",
   host: "localhost",
   database: "typeorm-test-db",
@@ -17,9 +17,4 @@ export const connectionOptions: ConnectionOptions = {
   entities: [join(__dirname, "../entity/*.*")],
   migrations: [join(__dirname, "../migration/*.*")],
   subscribers: [join(__dirname, "../subscriber/*.*")],
-  cli: {
-    entitiesDir: "src/entity",
-    migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber",
-  },
-};
+});

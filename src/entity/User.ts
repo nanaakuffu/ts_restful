@@ -4,12 +4,16 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { IUser, IUserInfo } from "../globals/interfaces";
 
 @Entity()
 export class User implements IUserInfo {
   @ObjectIdColumn()
+  _id!: string;
+
+  @PrimaryColumn()
   id!: string;
 
   @Column()

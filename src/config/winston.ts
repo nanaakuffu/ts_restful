@@ -7,7 +7,12 @@ export const logger: winston.Logger = createLogger({
   format: format.combine(
     format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
     format.errors({ stack: true }),
-    format.printf((info) => `[${info.timestamp}]: ${info.message}`)
+    format.printf(
+      (info) =>
+        `[${format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" })}]: ${
+          info.message
+        }`
+    )
   ),
   transports: [
     new transports.File({

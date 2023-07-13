@@ -4,6 +4,7 @@ import { getRepository } from "typeorm";
 
 import { User } from "../entity/User";
 import { HttpException } from "../utility/HttpException";
+import { dataSource } from "../config/settings";
 
 export const auth = async (
   request: Request,
@@ -26,17 +27,20 @@ export const auth = async (
     const secretKey = process.env.SECRET_JWT || "";
     // const verifyToken = <jwt.JwtPayload>jwt.verify(token, secretKey);
 
-    jwt.verify(token, secretKey, async (err, verifyToken) => {
+    jwt.verify(token, secretKey, async (err, verifyToken: any) => {
       if (err) {
         next(new HttpException(401, "Unauthenticated: Token expired."));
       }
 
-      const user = await getRepository(User).findOne(verifyToken?.user_id);
+      const user: any = await dataSource
+        .getMongoRepository(User)
+        .findOneBy({ id: verifyToken?.user_id });
+
       if (!user) {
         next(new HttpException(401, "Unauthenticated: Access denied."));
       }
 
-      const { password, ...userDataWithoutPassword } = user as User;
+      const { password, ...userDataWithoutPassword } = user;
 
       response.locals.user = userDataWithoutPassword;
 
